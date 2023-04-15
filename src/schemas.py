@@ -67,3 +67,8 @@ class NoteResponse(NoteModel):
 
     class Config:
         orm_mode = True
+
+
+class RequestEmail(BaseModel):
+    email: EmailStr
+

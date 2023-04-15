@@ -1,12 +1,11 @@
-from dotenv import dotenv_values
 
+from src.conf.config import settings
 from fastapi import HTTPException, status
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 
-config = dotenv_values(".env")
-SQLALCHEMY_DATABASE_URL = config.get('DATABASE_URL')
+SQLALCHEMY_DATABASE_URL = settings.database_url
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 DBSession = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

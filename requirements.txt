@@ -4,3 +4,4 @@ python-dotenv~=1.0.0
 passlib~=1.7.4
 pydantic~=1.10.7
 alembic~=1.10.2
+jose~=1.0.0
