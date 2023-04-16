@@ -8,17 +8,16 @@ from src.conf.config import settings
 from src.services.auth import auth_service
 
 conf = ConnectionConfig(
-    MAIL_USERNAME=settings.mail_host_user,
-    MAIL_PASSWORD=settings.mail_host_password,
+    MAIL_USERNAME=settings.mail_username,
+    MAIL_PASSWORD=settings.mail_password,
     MAIL_FROM=EmailStr(settings.mail_from),
     MAIL_SERVER=settings.mail_server,
     MAIL_PORT=settings.mail_port,
-    MAIL_FROM_USER=settings.mail_from_name,
-    MAIL_USE_TLS=True,
-    MAIL_USE_SSL=True,
-    MAIL_STARTTLS=True,
+    MAIL_FROM_NAME='MY FAST API',
+    MAIL_STARTTLS=False,
+    MAIL_SSL_TLS=True,
     USE_CREDENTIALS=True,
-    VALIDATE_CERT=True,
+    VALIDATE_CERTS=True,
     TEMPLATE_FOLDER=Path(__file__).parent / 'templates',
 )
 

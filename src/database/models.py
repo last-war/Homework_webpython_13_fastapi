@@ -35,5 +35,7 @@ class User(Base):
     confirmed = Column(Boolean, default=False)
     created_at = Column('created_at', DateTime, default=func.now())
     refresh_token = Column(String(255), nullable=True)
+    avatar = Column(String(255), nullable=True)
+
 
 

@@ -1,9 +1,9 @@
-from fastapi import FastAPI, Request, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException
 import redis.asyncio as redis
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 from src.database.connector import get_db
-from src.routes import contacts, notes, auth
+from src.routes import contacts, notes, auth, users
 from src.conf.config import settings
 from fastapi.responses import HTMLResponse
 from fastapi_limiter import FastAPILimiter
@@ -20,7 +20,7 @@ async def startup():
 
 
 @app.get("/", response_class=HTMLResponse, description="Main Page")
-async def root(request: Request):
+async def root():
     return {"message": "Welcome to FastAPI homework!"}
 
 
@@ -40,6 +40,7 @@ app.include_router(contacts.router, prefix='/api')
 app.include_router(contacts.finder, prefix='/api')
 app.include_router(notes.router, prefix='/api')
 app.include_router(auth.router, prefix='/api')
+app.include_router(users.router, prefix='/api')
 
 app.add_middleware(
     CORSMiddleware,

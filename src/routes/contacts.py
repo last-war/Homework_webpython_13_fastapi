@@ -20,7 +20,8 @@ async def get_all(skip: int = 0, limit: int = 10, cur_user: User = Depends(auth.
     return contacts
 
 
-@router.post("/", response_model=ContactResponse, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=ContactResponse, status_code=status.HTTP_201_CREATED, description='limit to create',
+             dependencies=[Depends(RateLimiter(times=10, seconds=60))])
 async def create(body: ContactModel, cur_user: User = Depends(auth.get_current_user), db: Session = Depends(get_db)):
     contact = await repository_contact.find_by_email(body.email, cur_user, db)
     if contact:
