@@ -13,8 +13,8 @@ async def create(body: ContactModel, user: User, db: Session):
     return contact
 
 
-async def get_all(user: User, db: Session):
-    contacts = db.query(Contact).filter(Contact.user_id == user.id).all()
+async def get_all(skip: int, limit: int, user: User, db: Session):
+    contacts = db.query(Contact).offset(skip).limit(limit).filter(Contact.user_id == user.id).all()
     return contacts
 
 

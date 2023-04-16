@@ -1,5 +1,6 @@
 from typing import List
 from fastapi import APIRouter, Depends, status, HTTPException, Path
+from fastapi_limiter.depends import RateLimiter
 
 from src.database.models import User
 from src.repository import contacts as repository_contact
@@ -12,9 +13,10 @@ router = APIRouter(prefix='/contacts', tags=['contacts'])
 finder = APIRouter(prefix='/contacts/find', tags=['find'])
 
 
-@router.get("/", response_model=List[ContactResponse])
-async def get_all(cur_user: User = Depends(auth.get_current_user), db: Session = Depends(get_db)):
-    contacts = await repository_contact.get_all(cur_user, db)
+@router.get("/", response_model=List[ContactResponse], description='No more than 10 requests per minute',
+            dependencies=[Depends(RateLimiter(times=10, seconds=60))])
+async def get_all(skip: int = 0, limit: int = 10, cur_user: User = Depends(auth.get_current_user), db: Session = Depends(get_db)):
+    contacts = await repository_contact.get_all(skip, limit, cur_user, db)
     return contacts
 
 
